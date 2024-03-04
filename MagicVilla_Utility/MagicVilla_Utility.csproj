@@ -6,16 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="13.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\MagicVilla_Models\MagicVilla_Models.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Web_Utility\" />
-  </ItemGroup>
-
 </Project>

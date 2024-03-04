@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using System.Net;
-using MagicVilla_Models.API_Models;
-using MagicVilla_Models.API_Models.DTO;
-using MagicVilla_DataAccess.API_DataAccess.Repository.IRepository;
+using MagicVilla_VillaAPi.Data.Repository.IRepository;
+using MagicVilla_VillaAPi.Data.Models;
+using MagicVilla_VillaAPi.Data.Models.DTO;
 
 namespace MagicVilla_VillaAPi.Controllers
 {

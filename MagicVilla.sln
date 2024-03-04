@@ -5,13 +5,9 @@ VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MagicVilla_VillaAPi", "MagicVilla_VillaAPi\MagicVilla_VillaAPi.csproj", "{71C578AD-3ACF-49FE-97A1-A8A2EDC5A2C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicVilla_Models", "MagicVilla_Models\MagicVilla_Models.csproj", "{ADBC6031-5B5C-455F-B6BD-FAE33EA1A0EB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicVilla_Web", "MagicVilla_Web\MagicVilla_Web.csproj", "{D4EF7339-8D9B-4633-BEA2-E7DB56A1FAA3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicVilla_DataAccess", "MagicVilla_DataAccess\MagicVilla_DataAccess.csproj", "{588E3E14-73E0-462F-B1D1-8CA7FD86A3B3}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicVilla_Utility", "MagicVilla_Utility\MagicVilla_Utility.csproj", "{A70BE5CA-0B14-45D1-86C8-69BD9B477E83}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicVilla_Web", "MagicVilla_Web\MagicVilla_Web.csproj", "{4E6EF7DD-CB31-4BC9-A7A0-4B0110256586}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicVilla_Utility", "MagicVilla_Utility\MagicVilla_Utility.csproj", "{DA35E769-C327-4765-9831-A1F22578CFE8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,22 +19,14 @@ Global
 		{71C578AD-3ACF-49FE-97A1-A8A2EDC5A2C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{71C578AD-3ACF-49FE-97A1-A8A2EDC5A2C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{71C578AD-3ACF-49FE-97A1-A8A2EDC5A2C8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ADBC6031-5B5C-455F-B6BD-FAE33EA1A0EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ADBC6031-5B5C-455F-B6BD-FAE33EA1A0EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ADBC6031-5B5C-455F-B6BD-FAE33EA1A0EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ADBC6031-5B5C-455F-B6BD-FAE33EA1A0EB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{588E3E14-73E0-462F-B1D1-8CA7FD86A3B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{588E3E14-73E0-462F-B1D1-8CA7FD86A3B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{588E3E14-73E0-462F-B1D1-8CA7FD86A3B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{588E3E14-73E0-462F-B1D1-8CA7FD86A3B3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A70BE5CA-0B14-45D1-86C8-69BD9B477E83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A70BE5CA-0B14-45D1-86C8-69BD9B477E83}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A70BE5CA-0B14-45D1-86C8-69BD9B477E83}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A70BE5CA-0B14-45D1-86C8-69BD9B477E83}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4E6EF7DD-CB31-4BC9-A7A0-4B0110256586}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4E6EF7DD-CB31-4BC9-A7A0-4B0110256586}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4E6EF7DD-CB31-4BC9-A7A0-4B0110256586}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4E6EF7DD-CB31-4BC9-A7A0-4B0110256586}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4EF7339-8D9B-4633-BEA2-E7DB56A1FAA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4EF7339-8D9B-4633-BEA2-E7DB56A1FAA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4EF7339-8D9B-4633-BEA2-E7DB56A1FAA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4EF7339-8D9B-4633-BEA2-E7DB56A1FAA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA35E769-C327-4765-9831-A1F22578CFE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA35E769-C327-4765-9831-A1F22578CFE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA35E769-C327-4765-9831-A1F22578CFE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA35E769-C327-4765-9831-A1F22578CFE8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

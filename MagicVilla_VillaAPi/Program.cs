@@ -1,10 +1,12 @@
+
+
+using MagicVilla_VillaAPi;
+using MagicVilla_VillaAPi.Data;
+using MagicVilla_VillaAPi.Data.Repository;
+using MagicVilla_VillaAPi.Data.Repository.IRepository;
+using MagicVilla_VillaAPi.Logging;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using MagicVilla_DataAccess.API_DataAccess.Repository;
-using MagicVilla_DataAccess.API_DataAccess.Repository.IRepository;
-using MagicVilla_Utility.API_Utility.Logging;
-using MagicVilla_DataAccess;
-using MagicVilla_Utility.API_Utility;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options=>options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Azure;
-using MagicVilla_DataAccess.API_DataAccess.Repository.IRepository;
-using MagicVilla_Models.API_Models;
-using MagicVilla_Models.API_Models.DTO;
+using MagicVilla_VillaAPi.Data.Models;
+using MagicVilla_VillaAPi.Data.Models.DTO;
+using MagicVilla_VillaAPi.Data.Repository.IRepository;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
