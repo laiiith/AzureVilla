@@ -32,7 +32,7 @@ namespace MagicVilla_VillaAPi.Controllers
         {
             try
             {
-                IEnumerable<VillaNumber> villaNumberList = await _repo.GetAllAsync();
+                IEnumerable<VillaNumber> villaNumberList = await _repo.GetAllAsync(includeProperties:"Villa");
                 _response.Result = _mapper.Map<List<VillaNumberDTO>>(villaNumberList);
                 _response.StatusCode = HttpStatusCode.OK;
                 return Ok(_response);
@@ -57,7 +57,7 @@ namespace MagicVilla_VillaAPi.Controllers
                     _response.StatusCode = HttpStatusCode.BadRequest;
                     return BadRequest(_response);
                 }
-                var villaNumber = await _repo.GetAsync(u => u.VillaNo == villaNo);
+                var villaNumber = await _repo.GetAsync(u => u.VillaNo == villaNo , includeProperties: "Villa");
                 if (villaNumber == null)
                 {
                     _response.StatusCode = HttpStatusCode.NotFound;
