@@ -1,4 +1,5 @@
-﻿using MagicVilla_VillaAPi.Data.Models;
+﻿using MagicVilla_VillaAPi.Data;
+using MagicVilla_VillaAPi.Data.Models;
 using MagicVilla_VillaAPi.Data.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
 using System;

@@ -1,4 +1,5 @@
-﻿using MagicVilla_VillaAPi.Data.Repository.IRepository;
+﻿using MagicVilla_VillaAPi.Data;
+using MagicVilla_VillaAPi.Data.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -20,7 +21,7 @@ namespace MagicVilla_VillaAPi.Data.Repository
             await SaveAsync();
         }
 
-        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, string? includeProperties = null)
+        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>> filter = null, string includeProperties = null)
         {
             IQueryable<T> query = dbSet;
             if (filter != null)
@@ -29,7 +30,7 @@ namespace MagicVilla_VillaAPi.Data.Repository
             }
             if (includeProperties != null)
             {
-                foreach (var includeProp in includeProperties.Split(new char[] {','},StringSplitOptions.RemoveEmptyEntries))
+                foreach (var includeProp in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
                 {
                     query = query.Include(includeProp);
                 }
@@ -37,7 +38,7 @@ namespace MagicVilla_VillaAPi.Data.Repository
             return await query.ToListAsync();
         }
 
-        public async Task<T> GetAsync(Expression<Func<T, bool>>? filter = null, bool tracked = true, string? includeProperties = null)
+        public async Task<T> GetAsync(Expression<Func<T, bool>> filter = null, bool tracked = true, string includeProperties = null)
         {
             IQueryable<T> query = dbSet;
             if (filter != null)

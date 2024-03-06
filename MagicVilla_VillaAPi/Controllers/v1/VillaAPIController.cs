@@ -6,7 +6,7 @@ using MagicVilla_VillaAPi.Data.Repository.IRepository;
 using MagicVilla_VillaAPi.Data.Models;
 using MagicVilla_VillaAPi.Data.Models.DTO;
 
-namespace MagicVilla_VillaAPi.Controllers
+namespace MagicVilla_VillaAPi.Controllers.v1
 {
     [Route("api/VillaAPI")]
     [ApiController]
@@ -19,7 +19,7 @@ namespace MagicVilla_VillaAPi.Controllers
         {
             _villaRepo = villaRepo;
             _mapper = mapper;
-            this._response = new();
+            _response = new();
         }
 
 
@@ -39,7 +39,7 @@ namespace MagicVilla_VillaAPi.Controllers
             catch (Exception ex)
             {
                 _response.IsSuccess = false;
-                _response.ErrorMesssages = new List<string> { ex.Message };
+                _response.ErrorMessages = new List<string> { ex.Message };
                 return _response;
             }
 
@@ -71,7 +71,7 @@ namespace MagicVilla_VillaAPi.Controllers
             catch (Exception ex)
             {
                 _response.IsSuccess = false;
-                _response.ErrorMesssages = new List<string> { ex.Message };
+                _response.ErrorMessages = new List<string> { ex.Message };
                 return _response;
             }
 
@@ -79,7 +79,7 @@ namespace MagicVilla_VillaAPi.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<ActionResult<APIResponse>> CreateVilla([FromBody]VillaCreateDTO createDTO)
+        public async Task<ActionResult<APIResponse>> CreateVilla([FromBody] VillaCreateDTO createDTO)
         {
             try
             {
@@ -105,7 +105,7 @@ namespace MagicVilla_VillaAPi.Controllers
             catch (Exception ex)
             {
                 _response.IsSuccess = false;
-                _response.ErrorMesssages = new List<string> { ex.Message };
+                _response.ErrorMessages = new List<string> { ex.Message };
                 return _response;
             }
 
@@ -141,7 +141,7 @@ namespace MagicVilla_VillaAPi.Controllers
             catch (Exception ex)
             {
                 _response.IsSuccess = false;
-                _response.ErrorMesssages = new List<string> { ex.Message };
+                _response.ErrorMessages = new List<string> { ex.Message };
                 return _response;
             }
 
@@ -150,7 +150,7 @@ namespace MagicVilla_VillaAPi.Controllers
         [HttpPut("{id:int}")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<APIResponse>> UpdateVilla(int id, [FromBody]VillaUpdateDTO updateDTO)
+        public async Task<ActionResult<APIResponse>> UpdateVilla(int id, [FromBody] VillaUpdateDTO updateDTO)
         {
             try
             {
@@ -168,7 +168,7 @@ namespace MagicVilla_VillaAPi.Controllers
             catch (Exception ex)
             {
                 _response.IsSuccess = false;
-                _response.ErrorMesssages = new List<string> { ex.Message };
+                _response.ErrorMessages = new List<string> { ex.Message };
                 return _response;
 
             }
