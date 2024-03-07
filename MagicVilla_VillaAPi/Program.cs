@@ -4,6 +4,7 @@ using MagicVilla_VillaAPi.Data.Repository;
 using MagicVilla_VillaAPi.Data.Repository.IRepository;
 using MagicVilla_VillaAPi.Logging;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -17,7 +18,15 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
 Log.Logger = new LoggerConfiguration().MinimumLevel.Debug().WriteTo.File("log/villaLogs.txt", rollingInterval: RollingInterval.Day).CreateLogger();
 builder.Services.AddAutoMapper(typeof(MappingConfig));
 builder.Host.UseSerilog();
-builder.Services.AddControllers().AddNewtonsoftJson();
+builder.Services.AddResponseCaching();
+builder.Services.AddControllers(option=>
+{
+    option.CacheProfiles.Add("Default30",
+        new CacheProfile()
+        {
+            Duration = 30
+        });
+}).AddNewtonsoftJson().AddXmlDataContractSerializerFormatters();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 

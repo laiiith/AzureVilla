@@ -5,10 +5,12 @@ using System.Net;
 using MagicVilla_VillaAPi.Data.Repository.IRepository;
 using MagicVilla_VillaAPi.Data.Models;
 using MagicVilla_VillaAPi.Data.Models.DTO;
+using System.Text.Json;
 
 namespace MagicVilla_VillaAPi.Controllers.v1
 {
-    [Route("api/VillaAPI")]
+    [Route("api/v{version:apiVersion}/VillaAPI")]
+    
     [ApiController]
     public class VillaAPIController : ControllerBase
     {
@@ -22,17 +24,33 @@ namespace MagicVilla_VillaAPi.Controllers.v1
             _response = new();
         }
 
-
-
-
         [HttpGet]
+        [ResponseCache(CacheProfileName = "Default30")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<APIResponse>> GetVillas()
+        public async Task<ActionResult<APIResponse>> GetVillas([FromQuery(Name = "filter Occupancy")] int? occupancy, [FromQuery] string? search, int pageSize = 0, int pageNumber = 1)
         {
             try
             {
-                IEnumerable<Villa> villaList = await _villaRepo.GetAllAsync();
+                IEnumerable<Villa> villaList;
+                if ( occupancy > 0 )
+                {
+                    villaList = await _villaRepo.GetAllAsync(u => u.Occupancy == occupancy , pageSize:pageSize , pageNumber:pageNumber);
+                }
+                else
+                {
+                    villaList = await _villaRepo.GetAllAsync();
+                }
+                if (!string.IsNullOrEmpty(search))
+                {
+                    villaList = villaList.Where(u =>
+                    u.Name.ToLower().Contains(search));
+                }
+                Pagination pagination = new() { 
+                    PageNumber = pageNumber,
+                    PageSize = pageSize
+                };
                 _response.Result = _mapper.Map<List<VillaDTO>>(villaList);
+                Response.Headers.Add("X-Pagination" ,JsonSerializer.Serialize(pagination));
                 _response.StatusCode = HttpStatusCode.OK;
                 return Ok(_response);
             }

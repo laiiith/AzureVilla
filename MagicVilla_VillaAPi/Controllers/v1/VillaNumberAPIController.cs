@@ -63,6 +63,7 @@ namespace MagicVilla_VillaAPi.Controllers.v1
                 if (villaNo == 0)
                 {
                     _response.StatusCode = HttpStatusCode.BadRequest;
+                    _response.IsSuccess = false;
                     return BadRequest(_response);
                 }
                 var villaNumber = await _repo.GetAsync(u => u.VillaNo == villaNo, includeProperties: "Villa");
