@@ -1,17 +1,18 @@
-﻿using Microsoft.AspNetCore.JsonPatch;
-using Microsoft.AspNetCore.Mvc;
-using AutoMapper;
-using System.Net;
-using MagicVilla_VillaAPi.Data.Repository.IRepository;
+﻿using AutoMapper;
 using MagicVilla_VillaAPi.Data.Models;
 using MagicVilla_VillaAPi.Data.Models.DTO;
+using MagicVilla_VillaAPi.Data.Repository.IRepository;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using System.Text.Json;
 
-namespace MagicVilla_VillaAPi.Controllers.v1
+namespace MagicVilla_VillaAPi.Controllers.v2
 {
     [Route("api/v{version:apiVersion}/VillaAPI")]
-    
     [ApiController]
+    [ApiVersion("2.0")]
     public class VillaAPIController : ControllerBase
     {
         protected APIResponse _response;
@@ -31,9 +32,9 @@ namespace MagicVilla_VillaAPi.Controllers.v1
             try
             {
                 IEnumerable<Villa> villaList;
-                if ( occupancy > 0 )
+                if (occupancy > 0)
                 {
-                    villaList = await _villaRepo.GetAllAsync(u => u.Occupancy == occupancy , pageSize:pageSize , pageNumber:pageNumber);
+                    villaList = await _villaRepo.GetAllAsync(u => u.Occupancy == occupancy, pageSize: pageSize, pageNumber: pageNumber);
                 }
                 else
                 {
@@ -44,12 +45,13 @@ namespace MagicVilla_VillaAPi.Controllers.v1
                     villaList = villaList.Where(u =>
                     u.Name.ToLower().Contains(search));
                 }
-                Pagination pagination = new() { 
+                Pagination pagination = new()
+                {
                     PageNumber = pageNumber,
                     PageSize = pageSize
                 };
                 _response.Result = _mapper.Map<List<VillaDTO>>(villaList);
-                Response.Headers.Add("X-Pagination" ,JsonSerializer.Serialize(pagination));
+                Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagination));
                 _response.StatusCode = HttpStatusCode.OK;
                 return Ok(_response);
             }
@@ -96,7 +98,7 @@ namespace MagicVilla_VillaAPi.Controllers.v1
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<ActionResult<APIResponse>> CreateVilla([FromBody] VillaCreateDTO createDTO)
+        public async Task<ActionResult<APIResponse>> CreateVilla([FromForm] VillaCreateDTO createDTO)
         {
             try
             {
@@ -115,6 +117,33 @@ namespace MagicVilla_VillaAPi.Controllers.v1
 
                 await _villaRepo.CreateAsync(villa);
 
+                if (createDTO.Image != null)
+                {
+                    string fileName = villa.Id + Path.GetExtension(createDTO.Image.FileName);
+                    string filePath = @"wwwroot\ProductImage\" + fileName;
+
+                    var directoryLocation = Path.Combine(Directory.GetCurrentDirectory(), filePath);
+
+                    FileInfo file = new FileInfo(directoryLocation);
+                    if (file.Exists)
+                    {
+                        file.Delete();
+                    }
+
+                    using(var fileStream  = new FileStream(directoryLocation,FileMode.Create))
+                    {
+                        createDTO.Image.CopyTo(fileStream);
+                    }
+                    var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.Value}{HttpContext.Request.PathBase.Value}";
+                    villa.ImageUrl = baseUrl + "/ProductImage/" + fileName;
+                    villa.ImageLocalPath = filePath;
+                }
+                else
+                {
+                    villa.ImageUrl = "https://placehold.co/600x400";
+                }
+
+                await _villaRepo.UpdateAsync(villa);
                 _response.Result = _mapper.Map<VillaDTO>(villa);
                 _response.StatusCode = HttpStatusCode.Created;
                 return CreatedAtRoute("GetVilla", new { id = villa.Id }, _response);
@@ -149,6 +178,16 @@ namespace MagicVilla_VillaAPi.Controllers.v1
                     _response.StatusCode = HttpStatusCode.NotFound;
                     return NotFound(_response);
                 }
+
+                if (!string.IsNullOrEmpty(villa.ImageLocalPath))
+                {
+                    var oldFilePathDirectory = Path.Combine(Directory.GetCurrentDirectory(), villa.ImageLocalPath);
+                    FileInfo file = new FileInfo(oldFilePathDirectory);
+                    if (file.Exists)
+                    {
+                        file.Delete();
+                    }
+                }
                 await _villaRepo.RemoveAsync(villa);
 
                 _response.IsSuccess = true;
@@ -167,7 +206,7 @@ namespace MagicVilla_VillaAPi.Controllers.v1
         [HttpPut("{id:int}")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<APIResponse>> UpdateVilla(int id, [FromBody] VillaUpdateDTO updateDTO)
+        public async Task<ActionResult<APIResponse>> UpdateVilla(int id, [FromForm] VillaUpdateDTO updateDTO)
         {
             try
             {
@@ -176,6 +215,37 @@ namespace MagicVilla_VillaAPi.Controllers.v1
                     return BadRequest();
                 }
                 Villa model = _mapper.Map<Villa>(updateDTO);
+                if (updateDTO.Image != null)
+                {
+                    if (!string.IsNullOrEmpty(model.ImageLocalPath))
+                    {
+                        var oldFilePathDirectory = Path.Combine(Directory.GetCurrentDirectory(), model.ImageLocalPath);
+                        FileInfo file = new FileInfo(oldFilePathDirectory);
+                        if (file.Exists)
+                        {
+                            file.Delete();
+                        }
+                    }
+                    string fileName = model.Id + Path.GetExtension(updateDTO.Image.FileName);
+                    string filePath = @"wwwroot\ProductImage\" + fileName;
+
+                    var directoryLocation = Path.Combine(Directory.GetCurrentDirectory(), filePath);
+
+         
+
+                    using (var fileStream = new FileStream(directoryLocation, FileMode.Create))
+                    {
+                        updateDTO.Image.CopyTo(fileStream);
+                    }
+                    var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.Value}{HttpContext.Request.PathBase.Value}";
+                    model.ImageUrl = baseUrl + "/ProductImage/" + fileName;
+                    model.ImageLocalPath = filePath;
+                }
+                else
+                {
+                    model.ImageUrl = "https://placehold.co/600x400";
+                }
+
                 await _villaRepo.UpdateAsync(model);
 
                 _response.IsSuccess = true;

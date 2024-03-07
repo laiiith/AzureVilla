@@ -1,9 +1,10 @@
 ﻿using MagicVilla_VillaAPi.Data.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace MagicVilla_VillaAPi.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -12,16 +13,19 @@ namespace MagicVilla_VillaAPi.Data
         public DbSet<Villa> Villas { get; set; }
         public DbSet<VillaNumber> VillaNumbers { get; set; }
         public DbSet<LocalUser> LocalUser { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Villa>().HasData(
                 new Villa
                 {
                     Id = 1,
                     Name = "Royal Villa",
                     Details = "Fusce 11 tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
-                    ImageUrl = "https://dotnetmastery.com/bluevillaimages/villa3.jpg",
+                    ImageUrl = "https://placehold.co/600x401",
                     Occupancy = 4,
                     Rate = 200,
                     Sqft = 550,
@@ -32,7 +36,7 @@ namespace MagicVilla_VillaAPi.Data
                   Id = 2,
                   Name = "Premium Pool Villa",
                   Details = "Fusce 11 tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
-                  ImageUrl = "https://dotnetmastery.com/bluevillaimages/villa1.jpg",
+                  ImageUrl = "https://placehold.co/600x402",
                   Occupancy = 4,
                   Rate = 300,
                   Sqft = 550,
@@ -44,7 +48,7 @@ namespace MagicVilla_VillaAPi.Data
                   Id = 3,
                   Name = "Luxury Pool Villa",
                   Details = "Fusce 11 tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
-                  ImageUrl = "https://dotnetmastery.com/bluevillaimages/villa4.jpg",
+                  ImageUrl = "https://placehold.co/600x403",
                   Occupancy = 4,
                   Rate = 400,
                   Sqft = 750,
@@ -56,7 +60,7 @@ namespace MagicVilla_VillaAPi.Data
                   Id = 4,
                   Name = "Diamond Villa",
                   Details = "Fusce 11 tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
-                  ImageUrl = "https://dotnetmastery.com/bluevillaimages/villa5.jpg",
+                  ImageUrl = "https://placehold.co/600x404",
                   Occupancy = 4,
                   Rate = 550,
                   Sqft = 900,
@@ -68,7 +72,7 @@ namespace MagicVilla_VillaAPi.Data
                   Id = 5,
                   Name = "Diamond Pool Villa",
                   Details = "Fusce 11 tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
-                  ImageUrl = "https://dotnetmastery.com/bluevillaimages/villa2.jpg",
+                  ImageUrl = "https://placehold.co/600x405",
                   Occupancy = 4,
                   Rate = 600,
                   Sqft = 1100,

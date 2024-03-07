@@ -1,9 +1,11 @@
 using MagicVilla_VillaAPi;
 using MagicVilla_VillaAPi.Data;
+using MagicVilla_VillaAPi.Data.Models;
 using MagicVilla_VillaAPi.Data.Repository;
 using MagicVilla_VillaAPi.Data.Repository.IRepository;
 using MagicVilla_VillaAPi.Logging;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -19,15 +21,9 @@ Log.Logger = new LoggerConfiguration().MinimumLevel.Debug().WriteTo.File("log/vi
 builder.Services.AddAutoMapper(typeof(MappingConfig));
 builder.Host.UseSerilog();
 builder.Services.AddResponseCaching();
-builder.Services.AddControllers(option=>
-{
-    option.CacheProfiles.Add("Default30",
-        new CacheProfile()
-        {
-            Duration = 30
-        });
-}).AddNewtonsoftJson().AddXmlDataContractSerializerFormatters();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddControllers().AddNewtonsoftJson().AddXmlDataContractSerializerFormatters();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle 
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(options =>
@@ -137,13 +133,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(options =>
     {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json" , "Magic_VillaV1");
         options.SwaggerEndpoint("/swagger/v2/swagger.json" , "Magic_VillaV2");
+        options.SwaggerEndpoint("/swagger/v1/swagger.json" , "Magic_VillaV1");
     });
 }
 
 app.UseHttpsRedirection();
-
+app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
 
