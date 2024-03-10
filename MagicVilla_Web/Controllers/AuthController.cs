@@ -37,18 +37,18 @@ namespace MagicVilla_Web.Controllers
             if (response != null && response.IsSuccess)
             {
                 TokenDTO model = JsonConvert.DeserializeObject<TokenDTO>(Convert.ToString(response.Result));
-
                 var handler = new JwtSecurityTokenHandler();
                 var jwt = handler.ReadJwtToken(model.AccessToken);
 
                 var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
                 identity.AddClaim(new Claim(ClaimTypes.Name, jwt.Claims.FirstOrDefault(u => u.Type == "unique_name").Value));
-                identity.AddClaim(new Claim(ClaimTypes.Role, jwt.Claims.FirstOrDefault(u=> u.Type == "role").Value));
+                identity.AddClaim(new Claim(ClaimTypes.Role, jwt.Claims.FirstOrDefault(u => u.Type == "role").Value));
                 var principal = new ClaimsPrincipal(identity);
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
+
                 _tokenProvider.SetToken(model);
-                return RedirectToAction("Index","Home");
+                return RedirectToAction("Index", "Home");
             }
             else
             {
@@ -90,9 +90,10 @@ namespace MagicVilla_Web.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();
-            
+            var token = _tokenProvider.GetToken();
+            await _authService.LogoutAsync<APIResponse>(token);
             _tokenProvider.ClearToken();
-            return RedirectToAction("Index" ,"Home");
+            return RedirectToAction("Index", "Home");
         }
         public async Task<IActionResult> AccessDenied()
         {
